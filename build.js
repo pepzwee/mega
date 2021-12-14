@@ -15,34 +15,6 @@ const sourceMapEnabled = process.argv.includes('--generate-sourcemap')
 const formatFilters = process.argv.filter(e => e.startsWith('--only=')).map(e => e.substr(7))
 
 const formats = [{
-  // to be loaded with <script>
-  name: 'browser-umd',
-  bundleExternals: true,
-  bundlePolyfills: true,
-  minifyResult: true,
-  entryPoint: 'lib/mega.js',
-  bundleConfig: { format: 'umd', name: 'mega' },
-  targets: { browsers: 'defaults' }
-}, {
-  // to be loaded with ES Module compatible loader
-  name: 'browser-es',
-  bundleExternals: true,
-  bundlePolyfills: true,
-  minifyResult: true,
-  entryPoint: 'lib/mega-es.js',
-  bundleConfig: { format: 'es' },
-  targets: {
-    // Only browsers that support <script type="module"> are supported because
-    // usually when ES modules are loaded in older browsers a transpiler is used.
-    // Data from https://caniuse.com/#feat=es6-module
-    browsers: [
-      'Edge >= 16',
-      'Firefox >= 60',
-      'Chrome >= 64',
-      'Safari >= 11'
-    ]
-  }
-}, {
   // to allow the old commonjs usage
   name: 'node-cjs',
   bundleExternals: false,
@@ -74,7 +46,7 @@ const doBundle = (format) => {
   const externalConfig = format.bundleExternals ? [] : [
     'zlib', 'https', 'http', 'crypto', 'fs', 'tls',
     'net', 'string_decoder', 'assert', 'punycode',
-    'dns', 'dgram', 'request', 'combined-stream',
+    'dns', 'dgram', 'postman-request', 'combined-stream',
     'url', 'through', 'stream-combiner', 'events',
     'secure-random', 'querystring', 'stream',
     'stream-skip'
